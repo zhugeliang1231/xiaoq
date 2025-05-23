@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>小奇公网接收器购买</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://www.qimanbz.com/wp-content/uploads/2023/04/20230414101445-1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2a4d8f;
+      margin-bottom: 30px;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: block;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      outline-color: #66a3ff;
+    }
+
+    .button-group button,
+    .copy-btn,
+    .confirm-btn {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      margin: 10px 8px 0 0;
+      font-size: 15px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .button-group button:hover,
+    .copy-btn:hover,
+    .confirm-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .address-box {
+      background: #fff;
+      border-left: 5px solid #4facfe;
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      user-select: all;
+      word-break: break-word;
+      margin-top: 10px;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 15px;
+      background: #e9f5ff;
+      padding: 10px 14px;
+      border-left: 4px solid #4facfe;
+      border-radius: 8px;
+    }
+
+    .order-id {
+      font-weight: bold;
+      color: #222;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>小奇公网接收器购买</h1>
+
+  <div class="section">
+    <label for="shipping">收货地址：</label>
+    <input type="text" id="shipping" placeholder="请输入您的收货地址">
+  </div>
+
+  <div class="section button-group hidden" id="productOptions">
+    <label>请选择版本：</label>
+    <button onclick="selectProduct('40线 - 65U')">40线 - 65U</button>
+    <button onclick="selectProduct('60线 - 85U')">60线 - 85U</button>
+    <button onclick="selectProduct('80线 - 100U')">80线 - 100U</button>
+    <button onclick="selectProduct('100线 - 110U')">100线 - 110U</button>
+  </div>
+
+  <div class="section hidden" id="trcAddressBox">
+    <label>付款地址（Trc-20）：</label>
+    <div class="address-box" id="trcAddress">TAHo7h7TnUpZ2AJhMGGFpaXxonEseRwEco</div>
+    <button class="copy-btn" onclick="copyAddress()">复制收款地址</button>
+    <div class="order-id" id="orderId"></div>
+    <button class="confirm-btn" onclick="confirmPayment()">我已完成付款</button>
+    <div class="note">查快递、咨询。联系飞机 @xiaoqi649</div>
+  </div>
+
+  <script>
+    const shippingInput = document.getElementById('shipping');
+    const productOptions = document.getElementById('productOptions');
+    const trcAddressBox = document.getElementById('trcAddressBox');
+    const orderIdBox = document.getElementById('orderId');
+
+    // 当收货地址长度大于1时，显示版本按钮
+    shippingInput.addEventListener('input', () => {
+      const value = shippingInput.value.trim();
+      if (value.length > 1) {
+        productOptions.classList.remove('hidden');
+      } else {
+        productOptions.classList.add('hidden');
+        trcAddressBox.classList.add('hidden');
+      }
+    });
+
+    function selectProduct(option) {
+      const orderId = generateOrderId();
+      orderIdBox.textContent = "订单编号：" + orderId;
+      alert("您选择的版本是：" + option + "\n\n请复制下方地址进行付款");
+      trcAddressBox.classList.remove('hidden');
+    }
+
+    function generateOrderId() {
+      const date = new Date();
+      const ymd = date.getFullYear().toString() + 
+                  String(date.getMonth() + 1).padStart(2, '0') + 
+                  String(date.getDate()).padStart(2, '0');
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      return `XQ-${ymd}-${rand}`;
+    }
+
+    function copyAddress() {
+      const addressText = document.getElementById('trcAddress').textContent;
+      navigator.clipboard.writeText(addressText).then(() => {
+        alert("收款地址已复制！");
+      });
+    }
+
+    function confirmPayment() {
+      alert("感谢您付款成功！我们将在24小时内发货。\n如需查询，请联系飞机 @xiaoqi649");
+    }
+  </script>
+
+</body>
+</html>
